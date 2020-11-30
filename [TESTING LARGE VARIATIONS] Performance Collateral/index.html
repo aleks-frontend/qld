@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html data-sign="OSM/OSB">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Founders%20Grotesk%20Condensed/stylesheet.css');
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Montserrat/stylesheet.css');      
+
+      /* Input Order
+      {{show-crop}} 
+
+      {{QB_renderer-type--p}}
+      {{{QB_layout--p}}}
+      {{{QB_performance-type--p}}}
+      {{{QB_background-image--p}}} -- image for A variations
+      {{{QB_background-image-2--p}}} -- image for all other variations
+      {{{QB_presenting-partner-logo--p}}}
+      {{QB_toggle-subheading-and-venue--p}}
+      {{{QB_subheading--p}}}
+      {{{QB_venue-p}}}
+      {{{QB_heading--p}}}
+      {{{QB_heading-size--p}}}
+      {{QB_heading-horizontal-position}}
+      {{QB_heading-vertical-position}}
+      {{{QB_copy--p}}}
+      {{{QB_call-to-action--p}}} 
+      {{{QB_partner-logos--p}}}
+      */
+
+      :root {
+        --dracula-red: {{{account.colors.dracula-red}}};
+        --white: {{{account.colors.white}}};
+        --clay: {{{account.colors.clay}}};
+        --plum: {{{account.colors.plum}}};
+        --black: {{{account.colors.black}}};
+        --dark-rose: {{{account.colors.dark-rose}}};
+        --season-20-21-gold: {{{account.colors.season-20-21-gold}}};
+
+        --soft-yellow: {{{account.colors.soft-yellow}}};
+        --nutcracker-red: {{{account.colors.nutcracker-red}}};
+        --tutus-on-tour-peach: {{{account.colors.tutus-on-tour-peach}}};
+        --slepping-beauty-green: {{{account.colors.sleeping-beauty-green}}};
+        --gala-gold: {{{account.colors.gala-gold}}};
+        --nutcracker-gold: {{{account.colors.nutcracker-gold}}};
+      }
+
+      .perfomanceType--dracula { --dynamic-colour: var(--dracula-red); }
+      .perfomanceType--the-sleeping-beauty { --dynamic-colour: var(--slepping-beauty-green); }
+      .perfomanceType--peter-and-the-wolf { --dynamic-colour: var(--soft-yellow); }
+      .perfomanceType--nutcracker { --dynamic-colour: var(--white); }
+      .perfomanceType--bespoke { --dynamic-colour: var(--white); }
+      .perfomanceType--60th-anniversary { --dynamic-colour: var(--gala-gold); }
+      .perfomanceType--20-21-season { --dynamic-colour: var(--season-20-21-gold); }
+      .perfomanceType--tutus-on-tour-theme-1 { --dynamic-colour: var(--tutus-on-tour-peach); }
+      .perfomanceType--tutus-on-tour-theme-2 { --dynamic-colour: var(--tutus-on-tour-peach); }
+
+
+      html {
+        font-family: 'Founders Grotesk Condensed';
+        font-size: 11pt;
+        color: var(--white);
+        word-break: break-word !important;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .layout--edm-header-digital-600x300 .backgroundImage,
+      .layout--events-air-email-header-640x200 .backgroundImage,
+      .layout--edm-header-digital-500x250 .backgroundImage {
+        top: 2.1rem;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none !important; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .backgroundImage--default {
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      .perfomanceType--dracula .backgroundImage--default { 
+        background-position: 70% 50%;
+        background-image: url(https://files.outfit.io/media_library_items/236572/QLD_Ballet-Dracula_image.jpg);
+      }
+
+      .perfomanceType--the-sleeping-beauty .backgroundImage--default { 
+        background-position: 50% 100%;
+        background-image: url(https://files.outfit.io/media_library_items/236583/QLD-Ballet-The_Sleeping_Beauty-image.jpg);
+      }
+
+      .perfomanceType--peter-and-the-wolf .backgroundImage--default { background-image: url(https://files.outfit.io/media_library_items/236575/QLD-Ballet-Peter_and_The_Wolf-image.jpg); }
+      .perfomanceType--nutcracker .backgroundImage--default { 
+        background-position: 27% 33%;
+        background-image: url(https://files.outfit.io/media_library_items/236582/QLD-Ballet-The_Nutcracker-image.jpg);
+      }
+
+      .perfomanceType--bespoke .backgroundImage--default { 
+        background-position: 57% 9%;
+        background-image: url(https://files.outfit.io/media_library_items/236576/QLD-Ballet-Bespoke-image.jpg);
+      }
+
+      .perfomanceType--60th-anniversary .backgroundImage--default { 
+        background-position: 50% 33%;
+        background-image: url(https://files.outfit.io/media_library_items/236571/QLD-Ballet-60th_Anniversary-image.jpg);
+      }
+
+      .perfomanceType--20-21-season .backgroundImage--default { 
+        background-position: 50%;
+        background-image: url(https://files.outfit.io/media_library_items/236577/QLD-Ballet-20-21Season-image.jpg);
+      }
+
+      .perfomanceType--tutus-on-tour-theme-1 .backgroundImage--default { 
+        background-position: 50% 40%;
+        background-image: url(https://files.outfit.io/media_library_items/236574/QLD-Ballet-Tutus_on_Tour_Theme1-image.jpg);
+      }
+
+      .perfomanceType--tutus-on-tour-theme-2 .backgroundImage--default { background-image: url(https://files.outfit.io/media_library_items/236581/QLD-Ballet-Tutus_on_Tour_Theme2-image.jpg); }
+      
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .backgroundImage--default,
+      .layout--qpac-kerbside-3230x2175.perfomanceType--the-sleeping-beauty .backgroundImage--default { background-position: 50% 36%; }
+      .perfomanceType--bespoke .backgroundImage--default { background-position: 50% 16%; }
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100.perfomanceType--dracula .backgroundImage--default { background-position: 70% 35%; }
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100.perfomanceType--the-sleeping-beauty .backgroundImage--default { background-position: 50% 35%; }
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100.perfomanceType--peter-and-the-wolf .backgroundImage--default { background-position: 50%; }
+
+      
+      .page { display: none; }
+
+      .page--formatA { background: var(--white); }
+      .layout--qms-print-1248x336 .page--restFormats { background: var(--white); }
+      .layout--qms-print-1248x336 .page--restFormats,
+      .layout--edm-header-digital-600x300 .page--restFormats,
+      .layout--events-air-email-header-640x200 .page--restFormats,
+      .layout--facebook-cover-851x315 .page--restFormats,
+      .layout--edm-header-digital-500x250 .page--restFormats,
+      .layout--edm-image-and-brand-tag-digital-600x600 .page--restFormats,
+      .layout--facebook-event-cover-1920x1080 .page--restFormats,
+      .layout--website-1920x1080 .page--restFormats,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .page--restFormats,
+      .layout--youtube-channel-cover-2560x1440 .page--restFormats,
+      .layout--suncorp-rewards-portal-360x288 .page--restFormats,
+      .layout--suncorp-rewards-portal-350x280 .page--restFormats,
+      .layout--events-air-site-1000x594 .page--restFormats,
+      .layout--app-header-1000x250 .page--restFormats,
+      .layout--qpac-event-hero-2560x1092 .page--restFormats,
+      .layout--qpac-events-landing-page-600x600 .page--restFormats,
+      .layout--qpac-edm-hero-600x300 .page--restFormats,
+      .layout--image-only .page--restFormats,
+      .layout--mrec-static-digital-300x250 .page--restFormats,
+      .layout--leaderboard-static-digital-728x90 .page--restFormats,   
+      .layout--qpac .page--formatA,
+      .layout--qpac-digital-screen-768x1248 .page--formatA,
+      .layout--a2 .page--formatA,
+      .layout--a3 .page--formatA,
+      .layout--a4 .page--formatA,
+      .layout--pas-magazine-full-page-247x345 .page--formatA,
+      .layout--qpac-main-box-office-600x900 .page--formatA,
+      .layout--qpac-playhouse-box-office-poster-620x865 .page--formatA,
+      .layout--qpac-playhouse-foyer-cabinets-1400x1800 .page--formatA,
+      .layout--dance-australia-full-page-220x297 .page--formatA,
+      .layout--pull-up-banner-840x2140 .page--formatA,
+      .layout--a0-poster-841x1189 .page--formatA,
+      .layout--dance-australia-half-page-195x135 .page--formatA,
+      .layout--qpac-kerbside-3230x2175 .page--formatA,
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .page--formatA,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .page--formatA,
+      .layout--jcdecaux-urbanlights-1225x1840 .page--formatA,
+      .layout--jcdecaux-lfd-the-spencer-1175x1775 .page--formatA,
+      .layout--jcdecaux-lfd-the-collins-512x576 .page--formatA,
+      .layout--qms-digital-southport-912x336 .page--formatA,
+      .layout--qms-digital-burleigh-heads-1248x336 .page--formatA,
+      .layout--qms-digital-kangaroo-point .page--formatA {
+        display: block;
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        padding: 1.7rem 1.15rem
+      }
+
+      .layout--mrec-static-digital-300x250 .fit { padding: 3mm; }
+      .layout--qms-print-1248x336 .fit { padding: 1.7rem 2.55rem; }
+      .layout--edm-image-and-brand-tag-digital-600x600 .fit { padding: 1.5rem 0 0; }
+
+      .layout--facebook-event-cover-1920x1080 .fit,
+      .layout--website-1920x1080 .fit,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .fit,
+      .layout--youtube-channel-cover-2560x1440 .fit,
+      .layout--suncorp-rewards-portal-360x288 .fit,
+      .layout--suncorp-rewards-portal-350x280 .fit,
+      .layout--events-air-site-1000x594 .fit,
+      .layout--app-header-1000x250 .fit,
+      .layout--qpac-event-hero-2560x1092 .fit,
+      .layout--qpac-events-landing-page-600x600 .fit,
+      .layout--qpac-edm-hero-600x300 .fit {
+        padding: 1.5rem 0 0; 
+      }
+
+      .layout--leaderboard-static-digital-728x90 .fit { 
+        padding: 2.05rem 2.15rem;
+        flex-direction: row; 
+      }
+
+      .layout--edm-header-digital-600x300 .fit,     
+      .layout--events-air-email-header-640x200 .fit,
+      .layout--edm-header-digital-500x250 .fit,
+      .layout--facebook-cover-851x315 .fit { padding: 0; }
+      .layout--pull-up-banner-840x2140 .fit { padding: 1.5rem 0.95rem; }
+      .layout--dance-australia-half-page-195x135 .fit { padding: 0.7rem 2.05rem 0.7rem; }
+      .layout--qpac-kerbside-3230x2175 .fit { padding: 1.2rem 2.35rem 1.5rem; }
+      .layout--qms-digital-southport-912x336 .page--formatA .fit { padding: 1.4rem 1.15rem; }
+      .layout--qms-digital-burleigh-heads-1248x336 .fit { padding: 1.15rem 1.2rem; }
+      .layout--qms-digital-kangaroo-point .fit { padding: 1.2rem 1.35rem; }
+
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .fit,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .fit { padding: 1.9rem 1.35rem 1.1rem; }
+
+      .header {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        height: 2.6rem;
+        margin-bottom: 0.94rem;
+      }
+
+      .layout--mrec-static-digital-300x250 .header {
+        margin-bottom: 1.2rem;
+        height: 3.4rem;
+        padding: 1.2rem 1.9rem 0;
+      }
+
+      .layout--qms-print-1248x336 .header { 
+        height: auto;
+        max-width: 7.3rem;
+        margin-bottom: 1.04rem;
+      }
+
+      .layout--leaderboard-static-digital-728x90 .header {
+        height: auto;
+        margin-bottom: 0;
+        margin-right: 1.4rem;
+      }
+
+      .layout--edm-header-digital-600x300 .header,
+      .layout--events-air-email-header-640x200 .header,
+      .layout--edm-header-digital-500x250 .header,
+      .layout--facebook-cover-851x315 .header { 
+        margin-bottom: 0;
+        height: 2.3rem;
+        align-items: flex-end;
+        justify-content: center;
+        background: var(--dark-rose);
+      }
+
+      .layout--edm-header-digital-600x300 .header { padding-bottom: 0.5rem; }
+
+      .layout--edm-header-digital-500x250 .header,
+      .layout--events-air-email-header-640x200 .header,
+      .layout--facebook-cover-851x315 .header { padding-bottom: 0.4rem; }
+
+      .layout--edm-image-and-brand-tag-digital-600x600 .header,
+      .layout--website-1920x1080 .header,
+      .layout--youtube-channel-cover-2560x1440 .header,
+      .layout--qpac-events-landing-page-600x600 .header,
+      .layout--qpac-edm-hero-600x300 .header,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .header,
+      .layout--qpac-event-hero-2560x1092 .header,
+      .layout--suncorp-rewards-portal-360x288 .header,
+      .layout--suncorp-rewards-portal-350x280 .header,
+      .layout--events-air-site-1000x594 .header,
+      .layout--app-header-1000x250 .header,
+      .layout--facebook-cover-851x315 .header { 
+        display: none;
+      }
+
+      .layout--facebook-event-cover-1920x1080 .header { 
+        height: 2.5rem;
+        margin: 0 2.15rem 1.1rem;
+      }
+
+      .layout--dance-australia-half-page-195x135 .header { margin-bottom: 0.6rem; }
+      .layout--qpac-kerbside-3230x2175 .header { margin-bottom: 0.72rem; }
+      .layout--qms-digital-southport-912x336 .header { margin-bottom: 1.24rem; }
+
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .header,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .header {
+        height: 2.7rem;
+        margin-bottom: 1.34rem;
+      }
+
+      .logo {
+        display: none;
+        width: 3.8rem;
+        object-fit: contain;
+        object-position: bottom;
+      }
+
+      .perfomanceType--dracula .logo--white,
+      .perfomanceType--the-sleeping-beauty .logo--white,
+      .perfomanceType--bespoke .logo--white,
+      .perfomanceType--peter-and-the-wolf .logo--white,
+      .perfomanceType--nutcracker .logo--white,
+      .perfomanceType--60th-anniversary .logo--black,
+      .perfomanceType--20-21-season .logo--white ,
+      .perfomanceType--tutus-on-tour-theme-1 .logo--white,
+      .perfomanceType--tutus-on-tour-theme-2 .logo--white { display: block; }
+
+      .logo--secondary,
+      .logo--tertiary,
+      .layout--edm-header-digital-600x300 .logo--primary,
+      .layout--events-air-email-header-640x200 .logo--primary,
+      .layout--facebook-cover-851x315 .logo--primary,
+      .layout--edm-header-digital-500x250 .logo--primary,
+      .layout--image-only .logo--primary,
+      .layout--leaderboard-static-digital-728x90 .logo--primary,
+      .layout--mrec-static-digital-300x250 .logo--primary,
+      .layout--edm-image-and-brand-tag-digital-600x600 .logo--primary,
+      .layout--website-1920x1080 .logo--primary,
+      .layout--facebook-event-cover-1920x1080 .logo--primary,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .logo--primary,
+      .layout--youtube-channel-cover-2560x1440 .logo--primary,
+      .layout--suncorp-rewards-portal-360x288 .logo--primary,
+      .layout--suncorp-rewards-portal-350x280 .logo--primary,
+      .layout--events-air-site-1000x594 .logo--primary,
+      .layout--app-header-1000x250 .logo--primary,
+      .layout--qpac-event-hero-2560x1092 .logo--primary,
+      .layout--qpac-events-landing-page-600x600 .logo--primary,
+      .layout--qpac-edm-hero-600x300 .logo--primary {
+        display: none;
+      }
+
+      .layout--mrec-static-digital-300x250 .logo--tertiary {
+        display: block;
+        width: 4.35rem;
+        object-position: left bottom;
+      }
+
+      .layout--qms-print-1248x336 .logo {
+        width: 5.6rem;
+        object-position: left bottom;
+      }
+
+      .layout--leaderboard-static-digital-728x90 .logo--tertiary {
+        display: block;
+        width: 5.3rem;
+        object-position: left top;
+      }
+
+      .layout--edm-header-digital-600x300 .logo--secondary,
+      .layout--events-air-email-header-640x200 .logo--secondary,
+      .layout--edm-header-digital-500x250 .logo--secondary,
+      .layout--facebook-cover-851x315 .logo--secondary {
+        display: block;
+        width: 7.6rem;
+      }
+
+      .layout--edm-image-and-brand-tag-digital-600x600 .logo--tertiary,
+      .layout--facebook-event-cover-1920x1080 .logo--tertiary,
+      .layout--website-1920x1080 .logo--tertiary,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .logo--tertiary,
+      .layout--youtube-channel-cover-2560x1440 .logo--tertiary,
+      .layout--suncorp-rewards-portal-360x288 .logo--tertiary,
+      .layout--suncorp-rewards-portal-350x280 .logo--tertiary,
+      .layout--events-air-site-1000x594 .logo--tertiary,
+      .layout--app-header-1000x250 .logo--tertiary,
+      .layout--qpac-event-hero-2560x1092 .logo--tertiary,
+      .layout--qpac-events-landing-page-600x600 .logo--tertiary,
+      .layout--qpac-edm-hero-600x300 .logo--tertiary {
+        display: block;
+        object-position: left bottom;
+      }
+
+      .layout--edm-image-and-brand-tag-digital-600x600 .logo--tertiary { width: 4.6rem; }
+
+      .layout--facebook-event-cover-1920x1080 .logo--tertiary,
+      .layout--website-1920x1080 .logo--tertiary,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .logo--tertiary,
+      .layout--youtube-channel-cover-2560x1440 .logo--tertiary,
+      .layout--suncorp-rewards-portal-360x288 .logo--tertiary,
+      .layout--suncorp-rewards-portal-350x280 .logo--tertiary,
+      .layout--events-air-site-1000x594 .logo--tertiary,
+      .layout--app-header-1000x250 .logo--tertiary,
+      .layout--qpac-event-hero-2560x1092 .logo--tertiary,
+      .layout--qpac-events-landing-page-600x600 .logo--tertiary,
+      .layout--qpac-edm-hero-600x300 .logo--tertiary {
+        width: 5rem;
+      }
+
+      .layout--dance-australia-half-page-195x135 .logo { width: 3.3rem; }
+      .layout--qpac-kerbside-3230x2175 .logo { width: 3.5rem; }
+
+      .layout--qms-digital-southport-912x336 .logo { width: 4.4rem; }
+
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .logo,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .logo { width: 4.3rem; }
+
+      .presentingPartnerLogo {
+        position: relative;
+        width: 3.37rem;
+        margin-top: 0.6rem;
+        background: url({{{QB_presenting-partner-logo--p}}});
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: top right;
+      }
+
+      .presentingPartnerLogo:after {
+        content: "PRESENTED BY";
+        position: absolute;
+        top: -0.35rem;
+        left: 0;
+        font-size: 0.21rem;
+        line-height: 1.2em;
+        font-weight: 500;
+      }
+
+      .body {
+        position: relative;
+        flex: 1;
+      }
+
+      .layout--mrec-static-digital-300x250 .body { padding: 0 1.9rem; }
+
+      .layout--leaderboard-static-digital-728x90 .body { 
+        display: flex; 
+        align-items: flex-end;
+      }
+
+      .layout--edm-header-digital-600x300 .body,
+      .layout--events-air-email-header-640x200 .body,
+      .layout--edm-header-digital-500x250 .body { padding: 1.55rem 1.95rem; }
+      .layout--facebook-cover-851x315 .body { padding: 1.25rem 1.65rem; }
+
+      /*.layout--edm-image-and-brand-tag-digital-600x600 .body { padding: 0 2.15rem; }*/
+
+      .layout--facebook-event-cover-1920x1080 .body { display: none; }
+
+      .heading {
+        position: relative;
+        max-width: 9.3rem;
+        max-height: 3.3rem;
+        font-size: 0.87rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.06rem;
+        color: var(--dynamic-colour);
+      }
+
+      .layout--a2 .heading,
+      .layout--a3 .heading,
+      .layout--a4 .heading,
+      .layout--qpac .heading,
+      .layout--qpac-digital-screen-768x1248 .heading { max-width: auto; width: 7rem;}
+
+      .layout--qpac-digital-screen-768x1248 .heading { width: 50%; }
+
+      .layout--pas-magazine-full-page-247x345 .heading,
+      .layout--qpac-main-box-office-600x900 .heading,
+      .layout--qpac-playhouse-box-office-poster-620x865 .heading{ width: 8rem; }
+
+      .rendererType--renderer-2  .heading { display: block !important; }
+
+      .layout--mrec-static-digital-300x250 .heading { 
+        max-height: 3rem;
+        max-width: 11.3rem; 
+        font-size: 1rem;
+      }
+
+      .layout--qms-print-1248x336 .heading { 
+        max-height: 4rem;
+        font-size: 1.25rem; 
+      }
+
+      .layout--leaderboard-static-digital-728x90 .heading {
+        margin-bottom: -0.5rem;
+        max-height: 3.2rem;
+        max-width: 13.6rem;
+        font-size: 1.37rem;
+      }
+
+      .layout--leaderboard-static-digital-728x90 .heading h1 { display: inline-block; }
+      .layout--leaderboard-static-digital-728x90 .heading h1.venue { display: none; }
+
+      .layout--leaderboard-static-digital-728x90.venue--qpac .heading h1.venue--qpac,
+      .layout--leaderboard-static-digital-728x90.venue--thomas-dickson-centre .heading h1.venue--thomasDickinsonCentre,
+      .layout--leaderboard-static-digital-728x90.venue--brisbane-powerhouse .heading h1.venue--brisbanePowerhouse {
+        display: inline-block;
+      }
+
+      .layout--edm-header-digital-600x300 .heading,
+      .layout--events-air-email-header-640x200 .heading,
+      .layout--edm-header-digital-500x250 .heading,
+      .layout--facebook-cover-851x315 .heading {
+        letter-spacing: 0.09em;
+      }
+
+      .layout--edm-header-digital-600x300 .heading,
+      .layout--edm-header-digital-500x250 .heading,
+      .layout--facebook-cover-851x315 .heading {
+        max-width: 10.3rem;
+      }
+
+      .layout--events-air-email-header-640x200 .heading { max-width: 6rem; }
+
+      .layout--edm-header-digital-600x300 .heading,
+      .layout--edm-header-digital-500x250 .heading{
+        max-height: 2.4rem;
+        font-size: 0.95rem;
+      }
+
+      .layout--events-air-email-header-640x200 .heading {
+        max-height: 3.1rem;
+        font-size: 0.75rem;
+      }
+
+      .layout--facebook-cover-851x315 .heading {
+        max-height: 2.2rem;
+        font-size: 0.85rem;
+      }
+
+      .layout--edm-image-and-brand-tag-digital-600x600 .heading,
+      .layout--facebook-event-cover-1920x1080 .heading,
+      .layout--website-1920x1080 .heading,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .heading,
+      .layout--youtube-channel-cover-2560x1440 .heading,
+      .layout--suncorp-rewards-portal-360x288 .heading,
+      .layout--suncorp-rewards-portal-350x280 .heading,
+      .layout--events-air-site-1000x594 .heading,
+      .layout--app-header-1000x250 .heading,
+      .layout--qpac-event-hero-2560x1092 .heading,
+      .layout--qpac-events-landing-page-600x600 .heading,
+      .layout--qpac-edm-hero-600x300 .heading {
+        max-height: 3.5rem;
+        max-width: 6.3rem;
+        font-size: 1.15rem;
+      }
+
+      .layout--dance-australia-half-page-195x135 .heading { 
+        max-height: 2.8em;
+        margin-bottom: 3.05rem;
+        font-size: 0.87rem;
+      }
+
+      .layout--qpac-kerbside-3230x2175 .heading,
+      .layout--qpac-kerbside-3230x2175 .heading { 
+        height: 2.8rem; 
+        font-size: 0.95rem;
+      }
+
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .heading,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .heading {
+        max-height: 3.5rem;
+        max-width: 5.7rem;
+        font-size: 1.1rem;
+        letter-spacing: 0.07rem;
+      }
+
+      .layout--jcdecaux-lfd-the-collins-512x576 .heading,
+      .layout--jcdecaux-lfd-the-spencer-1175x1775 .heading,
+      .layout--jcdecaux-urbanlights-1225x1840 .heading { max-height: 2.55rem; }
+
+      .layout--qms-digital-southport-912x336 .heading { max-width: 7.2rem; }
+      .layout--qms-digital-burleigh-heads-1248x336 .heading { max-height: 2.9rem; }
+      .layout--qms-digital-kangaroo-point .heading { max-height: 2.4rem; }
+      .layout--qms-digital-southport-912x336 .heading { 
+        max-height: 3.7rem;
+        font-size: 1.1rem;
+      }
+
+      .heading h1 { font-size: 1em; font-weight: 500; }
+      .layout--qms-print-1248x336 .heading h1 { line-height: 0.8em; }
+
+      .heading h5 {
+        font-size: 0.485em;
+        font-weight: 200;
+      }
+
+      .heading__inner { line-height: 0.95em; }
+      .layout--leaderboard-static-digital-728x90 .heading__inner { line-height: 1em; }
+      .layout--edm-header-digital-600x300 .heading__inner,
+      .layout--events-air-email-header-640x200 .heading__inner,
+      .layout--edm-header-digital-500x250 .heading__inner,
+      .layout--facebook-cover-851x315 .heading__inner { line-height: 0.89em; }
+      .layout--qpac-kerbside-3230x2175 .heading__inner { line-height: 0.9em; }
+
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .heading__inner,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .heading__inner {
+        line-height: 0.85em;
+      }
+
+      .rendererType--renderer-2  .heading__inner { display: block !important; }      
+      .toggleSubheadingAndVenue--hide .heading { display: none !important; }      
+
+      .venue {
+        position: relative;
+        display: none;
+      }
+
+      .venue--qpac .venue--qpac,
+      .venue--thomas-dickson-centre .venue--thomasDickinsonCentre,
+      .venue--brisbane-powerhouse .venue--brisbanePowerhouse {
+        display: block;
+      }
+
+      .layout--image-only.venue--qpac .venue--qpac,
+      .layout--image-only.venue--thomas-dickson-centre .venue--thomasDickinsonCentre,
+      .layout--image-only.venue--brisbane-powerhouse .venue--brisbanePowerhouse {
+        display: none;
+      }
+
+      .layout--edm-image-and-brand-tag-digital-600x600 .venue,
+      .layout--facebook-event-cover-1920x1080 .venue,
+      .layout--website-1920x1080 .venue,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .venue,
+      .layout--youtube-channel-cover-2560x1440 .venue,
+      .layout--suncorp-rewards-portal-360x288 .venue,
+      .layout--suncorp-rewards-portal-350x280 .venue,
+      .layout--events-air-site-1000x594 .venue,
+      .layout--app-header-1000x250 .venue,
+      .layout--qpac-event-hero-2560x1092 .venue,
+      .layout--qpac-events-landing-page-600x600 .venue,
+      .layout--qpac-edm-hero-600x300 .venue { 
+        display: none; 
+      }
+
+      .image__container {
+        position: absolute;
+        top: 3mm !important;
+        left: 3mm !important;
+        bottom: 3mm !important;
+        right: 3mm !important;
+      }
+
+      /*
+      .layout--a2 .image__container,
+      .layout--a3 .image__container,
+      .layout--a4 .image__container {
+      top: 3.4rem;
+      }
+
+      .layout--qpac .image__container,
+      .layout--qpac-digital-screen-768x1248 .image__container {
+      top: 3.2rem;
+      }
+
+      .layout--mrec-static-digital-300x250 .image__container {
+      left: 2.7rem;
+      top: 1.9rem;
+      width: 12.7rem;
+      height: 4.9rem;
+      }
+
+      .layout--qms-print-1248x336 .image__container {
+      right: 6.4rem;
+      top: -4.2rem;
+      width: 18rem;
+      height: 7rem;
+      }
+
+      .layout--leaderboard-static-digital-728x90 .image__container {
+      left: 15.3rem;
+      bottom: -0.9rem;
+      width: 11.9rem;
+      height: 4.7rem;
+      }
+
+      .layout--edm-header-digital-600x300 .image__container,
+      .layout--edm-header-digital-500x250 .image__container {
+      left: 5.9rem;
+      top: 2.7rem;
+      height: 6.2rem;
+      }
+
+      .layout--events-air-email-header-640x200 .image__container {
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0.9rem;
+      height: 5.2rem;
+      }
+
+      .layout--facebook-cover-851x315 .image__container {
+      left: 9.5rem;
+      top: 2.3rem;
+      height: 6.2rem;
+      }
+
+      .layout--edm-header-digital-600x300 .image__container { width: 15.6rem; }
+      .layout--events-air-email-header-640x200 .image__container { width: 13.6rem; }
+      .layout--edm-header-digital-500x250 .image__container { width: 15.1rem; }
+      .layout--facebook-cover-851x315 .image__container { width: 14.2rem; }
+
+      .layout--youtube-channel-cover-2560x1440 .image__container,
+      .layout--edm-image-and-brand-tag-digital-600x600 .image__container,
+      .layout--facebook-event-cover-1920x1080 .image__container,
+      .layout--website-1920x1080 .image__container,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .image__container,
+      .layout--suncorp-rewards-portal-360x288 .image__container,
+      .layout--suncorp-rewards-portal-350x280 .image__container,.layout--app-header-1000x250 .body
+      .layout--app-header-1000x250 .image__container,
+      .layout--qpac-event-hero-2560x1092 .image__container,
+      .layout--qpac-events-landing-page-600x600 .image__container,
+      .layout--qpac-edm-hero-600x300 .image__container {
+      left: 2.9rem;
+      bottom: 1.1rem;
+      width: 12.9rem;
+      height: 5.7rem;
+      }
+
+      .layout--edm-image-and-brand-tag-digital-600x600 .image__container,
+      .layout--website-1920x1080 .image__container,
+      .layout--youtube-channel-cover-2560x1440 .image__container,
+      .layout--qpac-events-landing-page-600x600 .image__container,
+      .layout--qpac-edm-hero-600x300 .image__container,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .image__container,
+      .layout--qpac-event-hero-2560x1092 .image__container,
+      .layout--suncorp-rewards-portal-360x288 .image__container,
+      .layout--suncorp-rewards-portal-350x280 .image__container,
+      .layout--suncorp-rewards-portal-350x280 .image__container,
+      .layout--events-air-site-1000x594 .image__container,
+      .layout--app-header-1000x250 .image__container {
+      justify-content: flex-start;
+      top: 0;
+      left: 2.15rem;
+      margin-top: 0;
+      }
+
+      .layout--dance-australia-half-page-195x135 .image__container{ 
+      top: 1.3rem;
+      height: 4.1rem;
+      margin-top: 0;
+      }
+
+      .layout--qpac-kerbside-3230x2175 .image__container {
+      top: 1.4rem;
+      height: 4.4rem;
+      margin-top: 0;
+      }
+
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .image__container,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .image__container{
+      top: -1.6rem;
+      height: 5.6rem;
+      margin-top: 0;
+      left: 0.8rem;
+      }
+
+      .layout--qms-digital-southport-912x336 .image__container {
+      top: -2rem;
+      height: 5.9rem;
+      margin-top: -1rem;
+      margin-left: 1.3rem;
+      }
+
+      .layout--jcdecaux-lfd-the-collins-512x576 .image__container { height: 4rem; }
+
+      .layout--qms-digital-burleigh-heads-1248x336 .image__container {
+      top: -0.7rem;
+      height: 3.1rem;
+      margin-top: 0;
+      }
+
+      .layout--qms-digital-kangaroo-point .image__container {
+      top: -0.7rem;
+      height: 3.1rem;
+      margin-top: 0;
+      }
+
+      .layout--pull-up-banner-840x2140 .image__container { margin-top: 1.8rem; }
+
+      .layout--pas-magazine-full-page-247x345 .image__container,
+      .layout--dance-australia-full-page-220x297 .image__container,
+      .layout--a0-poster-841x1189 .image__container, 
+      .layout--qpac-playhouse-box-office-poster-620x865 .image__container,
+      .layout--qpac-playhouse-foyer-cabinets-1400x1800 .image__container { margin-top: 0; }
+
+      .layout--qpac-main-box-office-600x900 .image__container { margin-top: 0.2rem; }
+      */
+      .layout--image-only .page--restFormats .image__container { display: none; }
+
+      .copy { display: none; }
+
+      .layout--dance-australia-half-page-195x135 .page--formatA .copy {
+        display: block;
+        max-width: 80%;
+      }
+
+      .copy p {
+        margin-bottom: 0.25rem;
+        font-family: 'Montserrat';
+        font-size: 0.355rem;
+        line-height: 1.2em;
+        opacity: 0.8;
+      }
+
+      .copy p:last-child { margin-bottom: 0; }
+
+      .image {
+        display: none;
+        position: absolute;
+        object-fit: contain;
+        width: {{QB_heading-size--p}}%;
+        left: {{QB_heading-horizontal-position}}%;                
+        top: {{QB_heading-vertical-position}}%;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .perfomanceType--dracula .image--dracula,
+      .perfomanceType--the-sleeping-beauty .image--the-sleeping-beauty,
+      .perfomanceType--peter-and-the-wolf .image--peter-and-the-wolf,
+      .perfomanceType--nutcracker .image--nutcracker,
+      .perfomanceType--bespoke .image--bespoke,
+      .perfomanceType--60th-anniversary .image--60th-anniversary,
+      .perfomanceType--20-21-season .image--20-21-season,
+      .perfomanceType--tutus-on-tour-theme-1 .image--tutus-on-tour-theme-1,
+      .perfomanceType--tutus-on-tour-theme-2 .image--tutus-on-tour-theme-2,
+      .image--custom {
+        display: block;
+      }
+
+      .layout--app-header-1000x250 .image,
+      .layout--events-air-site-1000x594 .image { object-position: left; }
+
+      .layout--qms-digital-southport-912x336 .image { width: calc((50*0.01) * 100%); }
+
+      .footer { position: relative; }
+
+      .layout--qpac .page--formatA .footer,
+      .layout--qpac-digital-screen-768x1248 .page--formatA .footer,
+      .layout--a2 .page--formatA .footer,
+      .layout--a3 .page--formatA .footer,
+      .layout--a4 .page--formatA .footer,
+      .layout--pas-magazine-full-page-247x345 .page--formatA .footer,
+      .layout--qpac-main-box-office-600x900 .page--formatA .footer,
+      .layout--qpac-playhouse-box-office-poster-620x865 .page--formatA .footer,
+      .layout--qpac-playhouse-foyer-cabinets-1400x1800 .page--formatA .footer,
+      .layout--dance-australia-full-page-220x297 .page--formatA .footer,
+      .layout--pull-up-banner-840x2140 .page--formatA .footer,
+      .layout--a0-poster-841x1189 .page--formatA .footer,
+      .layout--jcdecaux-urbanlights-1225x1840 .page--formatA .footer,
+      .layout--jcdecaux-lfd-the-spencer-1175x1775 .page--formatA .footer,
+      .layout--jcdecaux-lfd-the-collins-512x576 .page--formatA .footer{
+        display: flex;
+        flex-direction: column;
+        /*align-items: center;*/
+      }
+
+
+      .page--restFormats .footer { display: none; }
+
+      .layout--dance-australia-half-page-195x135 .footer,
+      .layout--qpac-kerbside-3230x2175 .footer,
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .footer,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .footer,
+      .layout--qms-digital-southport-912x336 .footer,
+      .layout--qms-digital-burleigh-heads-1248x336 .footer,
+      .layout--qms-digital-kangaroo-point .footer { 
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+
+      .layout--qms-digital-southport-912x336 .footer { justify-content: flex-end; }
+
+      .cta {
+        font-size: 0.76rem;
+        line-height: 1em;
+        font-weight: 500;
+        letter-spacing: 0.06rem;
+      }
+      .layout--qpac .page--formatA .cta,
+      .layout--qpac-digital-screen-768x1248 .page--formatA .cta,
+      .layout--a2 .page--formatA .cta,
+      .layout--a3 .page--formatA .cta,
+      .layout--a4 .page--formatA .cta,
+      .layout--pas-magazine-full-page-247x345 .page--formatA .cta,
+      .layout--qpac-main-box-office-600x900 .page--formatA .cta,
+      .layout--qpac-playhouse-box-office-poster-620x865 .page--formatA .cta,
+      .layout--qpac-playhouse-foyer-cabinets-1400x1800 .page--formatA .cta,
+      .layout--dance-australia-full-page-220x297 .page--formatA .cta,
+      .layout--pull-up-banner-840x2140 .page--formatA .cta,
+      .layout--a0-poster-841x1189 .page--formatA .cta,
+      .layout--jcdecaux-urbanlights-1225x1840 .page--formatA .cta,
+      .layout--jcdecaux-lfd-the-spencer-1175x1775 .page--formatA .cta,
+      .layout--jcdecaux-lfd-the-collins-512x576 .page--formatA .cta{
+        align-self: flex-start;
+      }
+
+      .layout--qms-digital-southport-912x336 .cta { display: none; }
+
+      .layout--pull-up-banner-840x2140 .cta { font-size: 0.62rem; }
+      .layout--dance-australia-half-page-195x135 .cta { 
+        font-size: 0.46rem; 
+        letter-spacing: 0.08em;
+      }
+      .layout--qpac-kerbside-3230x2175 .cta { font-size: 0.49rem; }
+
+      .cta a {
+        line-height: 1em;
+        color: var(--white);
+        text-decoration: none;
+        letter-spacing: 0.03rem;
+      }
+
+      .cta .tinymce_style--dark,
+      .cta .tinymce_style--dark a { color: var(--dynamic-colour); }
+
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .cta,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .cta { font-size: 0.73rem; }
+
+      .perfomanceType--nutcracker .cta,
+      .perfomanceType--nutcracker .cta a { color: var(--nutcracker-red); }
+
+      .perfomanceType--bespoke .cta .tinymce_style--dark { color: var(--clay); }
+
+      .perfomanceType--nutcracker .cta .tinymce_style--dark { color: var(--nutcracker-gold);}
+
+      .perfomanceType--the-sleeping-beauty .cta,
+      .perfomanceType--the-sleeping-beauty .cta a { color: var(--clay); }
+
+      .perfomanceType--20-21-season .cta,
+      .perfomanceType--20-21-season .cta a,
+      .perfomanceType--60th-anniversary .cta,
+      .perfomanceType--60th-anniversary .cta a { color: var(--black); }
+
+      .partnerLogo {
+        display: none;
+        width: 5.95rem;
+        margin-top: 1rem;
+      }
+
+      .partnerLogos--principal .partnerLogo--primary.partnerLogo--white,
+      .partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--white,
+      .perfomanceType--nutcracker.partnerLogos--principal .partnerLogo--primary.partnerLogo--black,
+      .perfomanceType--nutcracker.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--black,
+      .perfomanceType--60th-anniversary.partnerLogos--principal .partnerLogo--primary.partnerLogo--black,
+      .perfomanceType--60th-anniversary.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--black,
+      .perfomanceType--20-21-season.partnerLogos--principal .partnerLogo--primary.partnerLogo--black,
+      .perfomanceType--20-21-season.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--black { display: block; }
+
+      .perfomanceType--nutcracker.partnerLogos--principal .partnerLogo--primary.partnerLogo--white,
+      .perfomanceType--nutcracker.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--white,
+      .perfomanceType--60th-anniversary.partnerLogos--principal .partnerLogo--primary.partnerLogo--white,
+      .perfomanceType--60th-anniversary.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--white,
+      .perfomanceType--20-21-season.partnerLogos--principal .partnerLogo--primary.partnerLogo--white,
+      .perfomanceType--20-21-season.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--white { display: none; }
+
+      .partnerLogos--principal-major-partners .partnerLogo--secondary {
+        /*width: 10.95rem;*/
+        width: 7.5rem;
+        margin-top: 0.98rem;
+      }
+
+      .layout--dance-australia-half-page-195x135 .partnerLogos--principal-major-partners .partnerLogo--secondary { margin-left: 0.6rem; }
+      .layout--qms-digital-kangaroo-point .partnerLogo--secondary { width: 15.45rem; }
+      .layout--dance-australia-half-page-195x135 .partnerLogo { 
+        width: 6rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.1rem;
+      }
+
+      .layout--qpac-kerbside-3230x2175 .partnerLogo--secondary,
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .partnerLogo--secondary { 
+        flex-shrink: 0;
+        margin-left: 0.4rem;
+      }
+
+      .layout--qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100 .partnerLogo--secondary,
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .partnerLogo--secondary {
+        /*width: 17.95rem;*/
+        width: 7.5rem;
+        margin-top: 0;
+        margin-bottom: 0.3rem;
+      }
+
+      .layout--qms-digital-southport-912x336 .partnerLogo { width: 8.75rem; }
+      .layout--qpac-playhouse-stalls-carpet-walls-riverside-4700x2100 .page--formatA .partnerLogo { margin-bottom: 0.3rem; }
+
+      .textFit--vert.overflow:hover:after{ content: 'Minimum font size exceeded'; font-size: 0.4em; }
+      .textFit--vert.overflow:hover:before { font-size: 0.4em; }
+      .textFit-2.overflow:hover:after{ content: 'Minimum font size exceeded'; font-size: 0.4em; }
+      .textFit-2.overflow:hover:before { font-size: 0.4em; }
+
+
+      .book__container { 
+        display: none;
+        position: relative;
+        background: var(--plum);
+        text-align: center;
+      }
+
+      .layout--mrec-static-digital-300x250 .book__container,
+      .layout--edm-image-and-brand-tag-digital-600x600 .book__container,
+      .layout--facebook-event-cover-1920x1080 .book__container,
+      .layout--website-1920x1080 .book__container,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .book__container,
+      .layout--youtube-channel-cover-2560x1440 .book__container,
+      .layout--suncorp-rewards-portal-360x288 .book__container,
+      .layout--qpac-event-hero-2560x1092 .book__container,
+      .layout--qpac-events-landing-page-600x600 .book__container,
+      .layout--qpac-edm-hero-600x300 .book__container { 
+        display: block; 
+      }
+
+      .layout--leaderboard-static-digital-728x90 .book__container { 
+        display: flex; 
+        align-items: center;
+      }
+
+      .layout--mrec-static-digital-300x250 .book__container { padding: 0.5rem 1.9rem 0.1rem; }
+
+      .layout--leaderboard-static-digital-728x90 .book__container {
+        max-width: 5.3rem;
+        padding: 0.5rem 0.8rem 0.1rem;
+      }
+
+      .layout--edm-image-and-brand-tag-digital-600x600 .book__container { padding: 0.4rem 2.15rem 0.3rem; }
+
+      .layout--facebook-event-cover-1920x1080 .book__container,
+      .layout--facebook-event-cover-1920x1080 .book__container {
+        padding: 0.4rem 2.15rem 0.3rem;
+      }
+
+      .book { display: none; }
+
+      .book,
+      .book a {
+        font-weight: 200;
+        text-transform: uppercase;
+        color: var(--white);
+        text-decoration: none;
+      }
+
+      .layout--mrec-static-digital-300x250 .book,
+      .layout--mrec-static-digital-300x250 .book a,
+      .layout--edm-image-and-brand-tag-digital-600x600 .book,
+      .layout--edm-image-and-brand-tag-digital-600x600 .book a { 
+        font-size: 1rem;
+        letter-spacing: 0.08rem;  
+      }
+
+      .layout--leaderboard-static-digital-728x90 .book,
+      .layout--leaderboard-static-digital-728x90 .book a {
+        line-height: 1em;
+        letter-spacing: 0.06em;
+      }
+
+      .layout--mrec-static-digital-300x250 .book--primary,
+      .layout--leaderboard-static-digital-728x90 .book--secondary,
+      .layout--edm-image-and-brand-tag-digital-600x600 .book--primary,
+      .layout--facebook-event-cover-1920x1080 .book--primary,
+      .layout--website-1920x1080 .book--primary,
+      .layout--brisbane-powerhouse-webpage-2347x1320 .book--primary,
+      .layout--youtube-channel-cover-2560x1440 .book--primary,
+      .layout--suncorp-rewards-portal-360x288 .book--primary,
+      .layout--suncorp-rewards-portal-350x280 .book--primary,
+      .layout--events-air-site-1000x594 .book--primary,
+      .layout--app-header-1000x250 .book--primary,
+      .layout--qpac-event-hero-2560x1092 .book--primary,
+      .layout--qpac-events-landing-page-600x600 .book--primary,
+      .layout--qpac-edm-hero-600x300 .book--primary { 
+        display: block; 
+      }
+
+      .placeholder {
+        display: block;
+        position: absolute;
+        top: 3mm;
+        left: 3mm;
+        right: 3mm;
+        bottom: 3mm;
+        background: url('https://files.outfit.io/media_library_items/231466/Screen%2520Shot%25202020-10-06%2520at%252011.17.04%2520am.png') no-repeat center;
+        background-color: red;
+        background-size: contain;
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: 999;
+        display: none;
+      } 
+
+      /* Custom logic for toggling default and custom Subheading */      
+      [data-subheading-container] { display: none; }
+      .u-hide + [data-subheading-container] { display: block; }
+
+      [data-subheading] { display: none; }
+
+      .perfomanceType--dracula [data-subheading="dracula"], 
+      .perfomanceType--the-sleeping-beauty [data-subheading="the-sleeping-beauty"],
+      .perfomanceType--peter-and-the-wolf [data-subheading="peter-and-the-wolf"],
+      .perfomanceType--nutcracker [data-subheading="nutcracker"],
+      .perfomanceType--bespoke [data-subheading="bespoke"],
+      .perfomanceType--60th-anniversary [data-subheading="60th-anniversary"],
+      .perfomanceType--20-21-season [data-subheading="20-21-season"],
+      .perfomanceType--tutus-on-tour-theme-1 [data-subheading="tutus-on-tour-theme-1"],
+      .perfomanceType--tutus-on-tour-theme-2 [data-subheading="tutus-on-tour-theme-2"] { display: block; }
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body data-crop="{{show-crop}}" 
+        data-renderer-type="{{QB_renderer-type--p}}"
+        data-reduce-export-font-size-by-percent="0" 
+        data-reduce-firefox-font-size-by-percent="0" 
+        data-prevent-export-overflow="false"
+        class="layout--{{{QB_layout--p}}}{{^QB_layout--p}}qpac{{/QB_layout--p}}
+               perfomanceType--{{{QB_performance-type--p}}}{{^QB_performance-type--p}}dracula{{/QB_performance-type--p}}
+               venue--{{{QB_venue-p}}}{{^QB_venue-p}}qpac{{/QB_venue-p}}
+               partnerLogos--{{{QB_partner-logos--p}}}{{^QB_partner-logos--p}}principal{{/QB_partner-logos--p}}
+               rendererType--{{QB_renderer-type--p}}
+               toggleSubheadingAndVenue--{{QB_toggle-subheading-and-venue--p}}">
+
+    <div class="page page--formatA">
+
+      <div class="bleed">
+
+        <div class="container fit">
+          {{^QB_background-image--p}}
+          <div class="backgroundImage backgroundImage--default"></div><!--backgroundImage-->
+          {{/QB_background-image--p}}
+
+          {{#QB_background-image--p}}
+          <div class="backgroundImage"><div class="reposition-fix">{{{QB_background-image--p}}}</div></div><!--backgroundImage-->
+          {{/QB_background-image--p}}
+          {{^QB_heading--p}}
+          <div 
+               class="image__container image__container--dynamic" 
+               data-ps-hook="image-container">
+            <img 
+                 class="image image--dracula" 
+                 src="https://files.outfit.io/media_library_items/221154/QLD-heading.svg" 
+                 data-ps-hook="image">
+            <img 
+                 class="image image--the-sleeping-beauty" 
+                 src="https://files.outfit.io/media_library_items/236590/QLD-Ballet-The_Sleeping_Beauty-heading.svg" 
+                 data-ps-hook="image">
+            <img 
+                 class="image image--peter-and-the-wolf" 
+                 src="https://files.outfit.io/media_library_items/236589/QLD-Ballet-Peter_and_The_Wolf-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--nutcracker" 
+                 src="https://files.outfit.io/media_library_items/236588/QLD-Ballet-The_Nutcracker-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--bespoke" 
+                 src="https://files.outfit.io/media_library_items/236586/QLD-Ballet-Bespoke-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--60th-anniversary" 
+                 src="https://files.outfit.io/media_library_items/236587/QLD-Ballet-60th_Anniversary-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--20-21-season" 
+                 src="https://files.outfit.io/media_library_items/236585/QLD-Ballet-20-21Season-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--tutus-on-tour-theme-1" 
+                 src="https://files.outfit.io/media_library_items/236974/QLD-Ballet-Tutus_on_Tour_Theme1-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--tutus-on-tour-theme-2" 
+                 src="https://files.outfit.io/media_library_items/236593/QLD-Ballet-Tutus_on_Tour_Theme2-heading2.svg"
+                 data-ps-hook="image">
+          </div><!-- image__container --> 
+          {{/QB_heading--p}}
+          {{#QB_heading--p}}
+          <div 
+               class="image__container image__container--dynamic" 
+               data-ps-hook="image-container">
+            <img 
+                 class="image image--custom" 
+                 src="{{{QB_heading--p}}}"
+                 data-ps-hook="image">
+          </div><!-- image__container -->
+          {{/QB_heading--p}}          
+          <div class="header">
+            <img class="logo logo--white" src="{{{account.logos.stacked}}}">
+            <img class="logo logo--black" src="{{{account.logos.stacked-black}}}">
+            {{#QB_presenting-partner-logo--p}}
+            <div class="presentingPartnerLogo"></div><!--presentingPartnerLogo-->
+            {{/QB_presenting-partner-logo--p}}
+          </div><!--header-->
+          <div class="body">
+            <div class="heading">
+              <div class="heading__inner textFit--vert">
+                <span class="u-heading-patch">{{{QB_subheading--p}}}</span>
+                <div data-subheading-container>
+                  <div data-subheading="dracula">Dracula<br>26 nov - 4 dec</div>
+                  <div data-subheading="the-sleeping-beauty">the sleeping<br>beauty<br>4 - 12 jun</div>
+                  <div data-subheading="peter-and-the-wolf">peter &<br>the wolf<br>14 - 21 sept</div>
+                  <div data-subheading="nutcracker">the nutcracker<br>8 - 23 august</div>
+                  <div data-subheading="bespoke">bespoke<br>8 - 23 oct</div>
+                  <div data-subheading="60th-anniversary">60th<br>anniversary<br>gala<br>8 - 23 dec</div>
+                  <div data-subheading="20-21-season">20/21<br>season</div>
+                  <div data-subheading="tutus-on-tour-theme-1">tutus on tour<br>17 jul - 25 aug</div>
+                  <div data-subheading="tutus-on-tour-theme-2">tutus on tour<br>17 jul - 25 aug</div>
+                </div><!--data-subheading-container-->
+                <h1 class="venue venue--qpac">QPAC</h1><!--venue--qpac-->
+                <h1 class="venue venue--thomasDickinsonCentre">Thomas<br>Dickson Centre</h1><!--venue--thomasDickinsonCentre-->
+                <h1 class="venue venue--brisbanePowerhouse">Brisbane<br>Powerhouse</h1><!--venue--brisbanePowerhouse-->
+              </div><!-- heading__inner -->
+            </div><!--heading-->                   
+            <div class="copy" data-max-height="150">{{{QB_copy--p}}}</div><!--copy-->
+          </div><!--body-->
+          <div class="footer">
+            {{#QB_call-to-action--p}}
+            <div class="cta" data-max-line="2">{{{QB_call-to-action--p}}}</div><!--cta-->
+            {{/QB_call-to-action--p}}
+            <img class="partnerLogo partnerLogo--primary partnerLogo--white" src="https://files.outfit.io/media_library_items/217107/QLD-Ballet-logo2.svg">
+            <img class="partnerLogo partnerLogo--secondary partnerLogo--white" src="https://files.outfit.io/media_library_items/244817/QB-Partner-Lockup-white.png">
+            <img class="partnerLogo partnerLogo--primary partnerLogo--black" src="https://files.outfit.io/media_library_items/236596/Principle-logo.svg">
+            <img class="partnerLogo partnerLogo--secondary partnerLogo--black" src="https://files.outfit.io/media_library_items/243802/QLD-partner-logos2.svg">
+          </div><!--footer-->
+
+        </div><!--container fit-->
+        <!--<div class="placeholder"></div><!-- placeholder -->
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+    <div class="page page--restFormats">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          {{^QB_background-image--p}}
+          <div class="backgroundImage backgroundImage--default">{{{QB_background-image--p}}}</div><!--backgroundImage-->
+          {{/QB_background-image--p}}
+          {{#QB_background-image-2--p}}
+          <div class="backgroundImage"><div class="reposition-fix">{{{QB_background-image-2--p}}}</div></div><!--backgroundImage-->
+          {{/QB_background-image-2--p}}
+          {{^QB_heading--p}}
+          <div 
+               class="image__container image__container--dynamic" 
+               data-ps-hook="image-container">
+            <img 
+                 class="image image--dracula" 
+                 src="https://files.outfit.io/media_library_items/221154/QLD-heading.svg" 
+                 data-ps-hook="image">
+            <img 
+                 class="image image--the-sleeping-beauty" 
+                 src="https://files.outfit.io/media_library_items/236590/QLD-Ballet-The_Sleeping_Beauty-heading.svg" 
+                 data-ps-hook="image">
+            <img 
+                 class="image image--peter-and-the-wolf" 
+                 src="https://files.outfit.io/media_library_items/236589/QLD-Ballet-Peter_and_The_Wolf-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--nutcracker" 
+                 src="https://files.outfit.io/media_library_items/236588/QLD-Ballet-The_Nutcracker-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--bespoke" 
+                 src="https://files.outfit.io/media_library_items/236586/QLD-Ballet-Bespoke-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--60th-anniversary" 
+                 src="https://files.outfit.io/media_library_items/236587/QLD-Ballet-60th_Anniversary-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--20-21-season" 
+                 src="https://files.outfit.io/media_library_items/236585/QLD-Ballet-20-21Season-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--tutus-on-tour-theme-1" 
+                 src="https://files.outfit.io/media_library_items/236974/QLD-Ballet-Tutus_on_Tour_Theme1-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--tutus-on-tour-theme-2" 
+                 src="https://files.outfit.io/media_library_items/236593/QLD-Ballet-Tutus_on_Tour_Theme2-heading2.svg"
+                 data-ps-hook="image">
+          </div><!-- image__container --> 
+          {{/QB_heading--p}}
+          {{#QB_heading--p}}
+          <div 
+               class="image__container" 
+               data-ps-hook="image-container">
+            <img 
+                 class="image image--custom" 
+                 src="{{{QB_heading--p}}}"
+                 data-ps-hook="image">
+          </div><!-- image__container -->
+          {{/QB_heading--p}}
+          <div class="header">
+            <img class="logo logo--primary" src="{{{account.logos.stacked}}}">
+            <img class="logo logo--secondary" src="{{{account.logos.horizontal}}}" />
+            <img class="logo logo--tertiary" src="{{{account.logos.vertical}}}" />
+          </div><!-- header -->
+          <div class="body">
+            <div class="heading">
+              <div class="heading__inner textFit-2">
+                <span class="u-heading-patch">{{{QB_subheading--p}}}</span>
+                <h1 class="venue venue--qpac">QPAC</h1><!--venue--qpac-->
+                <h1 class="venue venue--thomasDickinsonCentre">Thomas<br>Dickson Centre</h1><!--venue--thomasDickinsonCentre-->
+                <h1 class="venue venue--brisbanePowerhouse">Brisbane Powerhouse</h1><!--venue--brisbanePowerhouse-->
+              </div><!-- heading__inner -->
+            </div><!--heading-->
+          </div><!-- body -->
+          <div class="footer"></div><!-- footer -->
+          {{#QB_call-to-action--p}}
+          <div class="book__container">
+            <div class="book book--primary" data-max-line="1">{{{QB_call-to-action--p}}}</div><!-- book -->
+            <div class="book book--secondary" data-max-line="2">{{{QB_call-to-action--p}}}</div><!-- book -->
+          </div><!-- book__container -->
+          {{/QB_call-to-action--p}}
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};       
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="js/all-images-loaded-callback.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+
+    <script>
+
+      /*console.clear();*/
+
+      // Tracking text changes and firing text restriction functions (mutationObserver)
+      const overflowObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          maxLineCheck();
+          maxHeightCheck();
+          charLimit();
+          hideEmptyTitles();
+        });
+      });
+
+      const injectObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          injectDynamicContent();
+        });
+      });      
+
+      const injectSources = document.querySelectorAll('[data-target-id]');
+
+      overflowObserver.observe(document.body, {
+        attributes: false,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: false,
+        characterDataOldValue: true
+      });
+
+      if ( injectSources.length > 0 ) {
+        injectSources.forEach(src => {
+          injectObserver.observe(src, {
+            attributes: false,
+            characterData: true,
+            childList: true,
+            subtree: true,
+            attributeOldValue: false,
+            characterDataOldValue: true
+          });            
+        });
+      }    
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Founders Grotesk Condensed'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          injectDynamicContent();
+          hideEmptyTitles();
+          allImagesLoadedCallback();
+          maxLineCheck();
+          maxHeightCheck();
+
+          TextFit.fit ({
+            selector: '.textFit--vert',
+            fitMode: 'vertical',
+            alignItems: 'flex-start'
+          });
+
+          TextFit.fit ({
+            selector: '.textFit-2',
+            fitMode: 'vertical',
+            alignItems: 'flex-start'
+          });
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+
+      const minFontSizes = {
+        layout1: 170,
+        layout2: 10
+      };
+
+      switch('{{QB_layout--p}}') {
+        case 'qpac':
+          minFontSizes.layout1 = 170;
+          break;
+        case 'a2':
+          minFontSizes.layout1 = 45;
+          break;          
+        case 'a3':
+          minFontSizes.layout1 = 40;
+          break;          
+        case 'a4':
+          minFontSizes.layout1 = 30;
+          break;  
+        case 'qpac-digital-screen-768x1248':
+          minFontSizes.layout1 = 30;
+          break;  
+        case 'pas-magazine-full-page-247x345':
+          minFontSizes.layout1 = 35;
+          break;  
+        case 'qpac-main-box-office-600x900':
+          minFontSizes.layout1 = 90;
+          break;  
+        case 'qpac-playhouse-box-office-poster-620x865':
+          minFontSizes.layout1 = 90;
+          break; 
+        case 'qpac-playhouse-foyer-cabinets-1400x1800':
+          minFontSizes.layout1 = 180;
+          break; 
+        case 'dance-australia-full-page-220x297':
+          minFontSizes.layout1 = 30;
+          break;  
+        case 'pull-up-banner-840x2140':
+          minFontSizes.layout1 = 180;
+          break;  
+        case 'a0-poster-841x1189':
+          minFontSizes.layout1 = 120;
+          break;  
+        case 'dance-australia-half-page-195x135':
+          minFontSizes.layout1 = 18;
+          break;  
+        case 'qpac-kerbside-3230x2175':
+          minFontSizes.layout1 = 270;
+          break;  
+        case 'qpac-playhouse-stalls-carpet-walls-grey-st-4720x2100':
+          minFontSizes.layout1 = 340;
+          break;  
+        case 'qpac-playhouse-stalls-carpet-walls-riverside-4700x2100':
+          minFontSizes.layout1 = 340;
+          break;  
+        case 'jcdecaux-urbanlights-1225x1840':
+          minFontSizes.layout1 = 180;
+          break;  
+        case 'jcdecaux-lfd-the-spencer-1175x1775':
+          minFontSizes.layout1 = 170;
+          break; 
+        case 'jcdecaux-lfd-the-collins-512x576':
+          minFontSizes.layout1 = 18;
+          break; 
+        case 'qms-digital-southport-912x336':
+          minFontSizes.layout1 = 15;
+          break; 
+        case 'qms-digital-burleigh-heads-1248x336':
+          minFontSizes.layout1 = 18;
+          break; 
+        case 'qms-digital-kangaroo-point':
+          minFontSizes.layout1 = 16;
+          break; 
+        case 'mrec-static-digital-300x250':
+          minFontSizes.layout2 = 10;
+          break;
+        case 'qms-print-1248x336':
+          minFontSizes.layout2 = 75;
+          break;          
+        case 'leaderboard-static-digital-728x90':
+          minFontSizes.layout2 = 15;
+          break;                   
+        case 'edm-header-digital-600x300':
+          minFontSizes.layout2 = 15;
+          break;                   
+        case 'edm-header-digital-500x250':
+          minFontSizes.layout2 = 15;
+          break;                        
+        case 'edm-image-and-brand-tag-digital-600x600':
+          minFontSizes.layout2 = 30;
+          break; 
+        case 'facebook-cover-851x315':
+          minFontSizes.layout2 = 23;
+          break;
+        case 'events-air-email-header-640x200':
+          minFontSizes.layout2 = 13;
+          break;  
+        default:
+          minFontSizes.layout1 = 170;
+          minFontSizes.layout2 = 75;
+      }
+
+      // TEXTFITMIN should be called here in a setInterval
+
+      setInterval(() => {
+        textFitMin('.textFit--vert', minFontSizes.layout1);
+        textFitMin('.textFit-2', minFontSizes.layout2);
+      }, 500)
+
+      function headingSetter() {
+        const fitWidth = document.querySelector('.fit').offsetWidth;
+        const imageContainers = document.querySelectorAll('[data-hs-hook="image-container"]');
+
+        for ( const imageContainer of imageContainers ) {
+          const images = imageContainer.querySelectorAll('[data-hs-width]');        
+
+          for ( const image of images ){
+            if ( window.getComputedStyle(image).getPropertyValue('display') === 'block' ) {
+              const setWidth = image.dataset.hsWidth || 50;
+              const finalWidth = `${( fitWidth / 100 ) * setWidth - 1}px`;
+              image.style.width = finalWidth;
+              imageContainer.style.minWidth = finalWidth;
+              image.onload = () => {
+                imageContainer.style.minHeight = `${image.offsetHeight}px`;
+                console.log('height set');
+              }              
+            }
+          }
+
+        }
+      }
+
+      /*** Work in progress ***/
+      function positionSetter() {
+        const containers = document.querySelectorAll('[data-ps-hook="image-container"]');
+        for ( const container of containers ) {
+          const containerWidth = container.offsetWidth;
+          const containerHeight = container.offsetHeight;
+          const images = container.querySelectorAll('[data-ps-hook="image"]');              
+
+          for ( const image of images ) {
+            const imageComputedStyle = window.getComputedStyle(image);
+            if ( imageComputedStyle.getPropertyValue('display') === 'block' ) {
+              const imageWidth = image.offsetWidth;
+              const imageHeight = image.offsetHeight;
+              const imageXPos = image.offsetLeft;
+              const imageYPos = image.offsetTop;
+
+              console.log({ imageYPos, imageHeight, containerHeight });
+
+              if ( imageXPos + imageWidth > containerWidth ) {
+                image.style.left = `${containerWidth - imageWidth}px`;
+              }
+
+              if ( imageYPos + imageHeight > containerHeight ) {
+                image.style.top = `${containerHeight - imageHeight}px`;
+              }        
+
+            }
+          }
+        }
+      }
+
+      positionSetter();
+    </script>
+
+
+  </body>
+</html>
