@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html data-sign="OSM/OSB">
+  <head>
+    <title>Template title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="css/minireset.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <style>
+      @import url('https://outfit-assets-production.s3.amazonaws.com/fonts/Founders%20Grotesk%20Condensed/stylesheet.css');
+
+      /* Input Order
+      {{show-crop}}
+      {{{QB_performance-type--pr}}}
+      {{{QB_background-image--pr}}}
+      {{{QB_presenting-partner-logo--pr}}}
+      {{{QB_subheading--pr}}}
+      {{{QB_venue-p}}}
+      {{{QB_heading--pr}}}
+      {{image-con-toggle}}
+      {{QB_heading-size--p}}
+      {{QB_heading-horizontal-position}}             
+      {{QB_heading-vertical-position}}
+      {{#collection.QB_review--pr}}
+      {{#block.QB_review-rating--pr}}
+      {{{QB_rating--pr}}}
+      {{{QB_copy--pr}}}
+      {{/block.QB_review-rating--pr}}
+      {{#block.QB_review-exclusive-to--pr}}
+      {{{QB_exclusive-to--pr}}}
+      {{/block.QB_review-exclusive-to--pr}}
+      {{/collection.QB_review--pr}}
+      {{{QB_call-to-action--pr}}}
+      {{{QB_partner-logos--pr}}}
+      */
+
+      :root {
+        --dracula-red: {{{account.colors.dracula-red}}};
+        --plum: {{{account.colors.plum}}};
+        --white: {{{account.colors.white}}};
+        --black: {{{account.colors.black}}};
+        --dracula-navy: {{{account.colors.dracula-navy}}};
+        
+         --soft-yellow: {{{account.colors.soft-yellow}}};
+        --nutcracker-red: {{{account.colors.nutcracker-red}}};
+        --tutus-on-tour-peach: {{{account.colors.tutus-on-tour-peach}}};
+        --slepping-beauty-green: {{{account.colors.sleeping-beauty-green}}};
+        --gala-gold: {{{account.colors.gala-gold}}};
+        --nutcracker-gold: {{{account.colors.nutcracker-gold}}};
+        --season-20-21-gold: {{{account.colors.season-20-21-gold}}};
+        --clay: {{{account.colors.clay}}};
+      }
+
+      .perfomanceType--dracula { --dynamic-colour: var(--dracula-red); }
+      .perfomanceType--the-sleeping-beauty { --dynamic-colour: var(--slepping-beauty-green); }
+      .perfomanceType--peter-and-the-wolf { --dynamic-colour: var(--soft-yellow); }
+      .perfomanceType--nutcracker { --dynamic-colour: var(--white); }
+      .perfomanceType--bespoke { --dynamic-colour: var(--white); }
+      .perfomanceType--60th-anniversary { --dynamic-colour: var(--gala-gold); }
+      .perfomanceType--20-21-season { --dynamic-colour: var(--season-20-21-gold); }
+      .perfomanceType--tutus-on-tour-theme-1 { --dynamic-colour: var(--tutus-on-tour-peach); }
+      .perfomanceType--tutus-on-tour-theme-2 { --dynamic-colour: var(--tutus-on-tour-peach); }
+
+
+      html {
+        font-family: 'Founders Grotesk Condensed';
+        font-size: 11pt;
+        color: var(--white);
+        word-break: break-word !important;
+      }
+
+      .backgroundImage {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+      }
+
+      .backgroundImage div {
+        width: auto !important;
+        height: auto !important;
+        right: 0;
+        bottom: 0;
+      }
+
+      /* Helper classes */
+      .u-hide { display: none; }
+
+      /* Helper class for fixing Reposition tool bug */
+      .reposition-fix {
+        position: absolute;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;        
+      }
+
+      .reposition-fix div {
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .backgroundImage--default {
+        background-position: center;
+        background-size: cover;
+      }
+
+      .perfomanceType--dracula .backgroundImage--default { background-image: url(https://files.outfit.io/media_library_items/236572/QLD_Ballet-Dracula_image.jpg); }
+      .perfomanceType--peter-and-the-wolf .backgroundImage--default { background-image: url(https://files.outfit.io/media_library_items/236575/QLD-Ballet-Peter_and_The_Wolf-image.jpg); }
+      .perfomanceType--nutcracker .backgroundImage--default { background-image: url(https://files.outfit.io/media_library_items/236582/QLD-Ballet-The_Nutcracker-image.jpg); }
+      .perfomanceType--60th-anniversary .backgroundImage--default { background-image: url(https://files.outfit.io/media_library_items/236571/QLD-Ballet-60th_Anniversary-image.jpg); }
+      .perfomanceType--20-21-season .backgroundImage--default { background-image: url(https://files.outfit.io/media_library_items/236577/QLD-Ballet-20-21Season-image.jpg); }
+      .perfomanceType--tutus-on-tour-theme-1 .backgroundImage--default { background-image: url(https://files.outfit.io/media_library_items/236574/QLD-Ballet-Tutus_on_Tour_Theme1-image.jpg); }
+      .perfomanceType--tutus-on-tour-theme-2 .backgroundImage--default { background-image: url(https://files.outfit.io/media_library_items/236581/QLD-Ballet-Tutus_on_Tour_Theme2-image.jpg); }
+
+      .perfomanceType--the-sleeping-beauty .backgroundImage--default { 
+        background-position: 50% 35%;
+        background-image: url(https://files.outfit.io/media_library_items/236583/QLD-Ballet-The_Sleeping_Beauty-image.jpg);
+      }
+
+      .perfomanceType--bespoke .backgroundImage--default { 
+        background-position: 50% 24%;
+        background-image: url(https://files.outfit.io/media_library_items/236576/QLD-Ballet-Bespoke-image.jpg);
+      }
+
+      .fit {
+        display: flex;
+        flex-direction: column;
+        padding: 32pt 45pt 27pt;
+      }
+
+      .header {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16.6pt;
+      }
+
+      .logo {
+        display: none;
+        width: 80pt;
+        object-fit: contain;
+      }
+
+      .perfomanceType--dracula .logo--white,
+      .perfomanceType--the-sleeping-beauty .logo--white,
+      .perfomanceType--bespoke .logo--white,
+      .perfomanceType--peter-and-the-wolf .logo--white,
+      .perfomanceType--nutcracker .logo--white,
+      .perfomanceType--60th-anniversary .logo--black,
+      .perfomanceType--20-21-season .logo--white ,
+      .perfomanceType--tutus-on-tour-theme-1 .logo--white,
+      .perfomanceType--tutus-on-tour-theme-2 .logo--white { display: block; }
+
+      .presentingPartnerLogo {
+        position: relative;
+        width: 80pt;
+        height: 40pt;
+        margin-top: 10pt;
+        background: url({{{QB_presenting-partner-logo--pr}}});
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: top left;
+      }
+
+      .presentingPartnerLogo:after {
+        content: "PRESENTED BY";
+        position: absolute;
+        top: -9pt;
+        left: 0;
+        font-size: 6.2pt;
+        line-height: 1.2em;
+        font-weight: 500;
+      }
+
+      .image__container {
+        position: absolute;
+        top: 3mm !important;
+        left: 3mm !important;
+        bottom: 3mm !important;
+        right: 3mm !important;
+      }
+      
+      
+      .image__container.hide{
+        display:none;
+      }
+
+      .image__container.show,
+      .image__container{
+        display:block;
+      }
+
+      .image {
+        display: none;
+        position: absolute;
+        object-fit: contain;
+        width: {{QB_heading-size--p}}%;
+        left: {{QB_heading-horizontal-position}}%;                
+        top: {{QB_heading-vertical-position}}%;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .body {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .subheading {
+        font-size: 21pt;
+        max-height: 55pt;
+        color: var(--dynamic-colour);
+        text-transform: uppercase;
+        letter-spacing: 2.2pt;
+        width: 170pt;
+        font-weight: 500;
+      }
+
+      .subheading__inner {
+        line-height: 0.9em;
+      }
+
+      .venue {
+        display: none;
+        font-size: 22pt;
+        line-height: 0.95em;
+        letter-spacing: 1.2pt;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: var(--dynamic-colour);
+      }
+
+      .venue--qpac .venue--qpac,
+      .venue--thomas-dickson-centre .venue--thomasDickinsonCentre,
+      .venue--brisbane-powerhouse .venue--brisbanePowerhouse {
+        display: block;
+        max-width:5.9rem;
+      }
+      /*
+      .image { 
+      display: none;
+      position: absolute;
+      top: 22pt;
+      width: 100%;
+      height: 90pt;
+      margin-top: 10pt;
+      object-fit: contain;
+      object-position: center;
+      }
+      */     
+
+      .perfomanceType--dracula .image--dracula,
+      .perfomanceType--the-sleeping-beauty .image--the-sleeping-beauty,
+      .perfomanceType--peter-and-the-wolf .image--peter-and-the-wolf,
+      .perfomanceType--nutcracker .image--nutcracker,
+      .perfomanceType--bespoke .image--bespoke,
+      .perfomanceType--60th-anniversary .image--60th-anniversary,
+      .perfomanceType--20-21-season .image--20-21-season,
+      .perfomanceType--tutus-on-tour-theme-1 .image--tutus-on-tour-theme-1,
+      .perfomanceType--tutus-on-tour-theme-2 .image--tutus-on-tour-theme-2,
+      .image--custom {
+        display: block;
+      }
+
+      .perfomanceType--the-sleeping-beauty .image--default { 
+        height: 79pt;
+        margin-top: 25pt;
+      }
+
+      .perfomanceType--nutcracker .image--default { margin-top: 14pt; }
+
+      .perfomanceType--bespoke .image--default {  margin-top: 22pt; }
+
+      .perfomanceType--60th-anniversary .image--default { 
+        height: 86pt;
+        margin-top: 18pt;
+      }
+
+      .perfomanceType--20-21-season .image--default { 
+        height: 80pt;
+        margin-top: 22pt;
+      }
+
+      .perfomanceType--tutus-on-tour-theme-1 .image--default,
+      .perfomanceType--tutus-on-tour-theme-2 .image--default {
+        height: 84pt;
+        margin-top: 20pt;
+      }
+
+      .perfomanceType--tutus-on-tour-theme-1 .image--default { background-image: url(https://files.outfit.io/media_library_items/236974/QLD-Ballet-Tutus_on_Tour_Theme1-heading.svg);  }
+      .perfomanceType--tutus-on-tour-theme-2 .image--default { background-image: url(https://files.outfit.io/media_library_items/236593/QLD-Ballet-Tutus_on_Tour_Theme2-heading2.svg); }
+
+      .review__container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; 
+      }
+
+      .review__container--4 { margin-left: -19pt; }
+
+      .review {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 72pt;
+        min-width: 88pt;
+        align-items: center;
+        justify-content: center;
+        padding: 7pt 23pt;
+      }
+
+      .review__container--4 .review { 
+        margin-left: 19pt;
+        padding: 7pt;
+      }
+
+      .review:before,
+      .review:after {
+        content: '';
+        position: absolute;
+        left: 99%;
+        border-right: 1pt solid var(--dracula-navy);
+        z-index: 1
+      }
+
+      .review:before {
+        bottom: 66%;
+        height: 15pt;
+      }
+
+      .review:after {
+        top: 60%;
+        height: 20pt;
+      }
+
+      .review__container--4 .review:before,
+      .review__container--4 .review:after,
+      .review:last-child:before,
+      .review:last-child:after {
+        display: none;
+      }
+
+      .review__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .review__background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;     
+        background-color: var(--plum);
+        opacity: 0.8;
+        pointer-events: none;
+      }
+
+      .review__content {
+        position: relative;
+        margin-top: 6.5pt;
+        color: var(--dracula-navy);
+        text-align: center;
+      }
+
+      .review__content--exclusiveTo {
+        width: 100%;
+        text-align: center;
+        font-size: 11.7pt;
+        line-height: 1.05em;
+        font-weight: 500;
+        letter-spacing: 0.8pt;
+        text-transform: uppercase;
+      }
+
+
+      .review__content--exclusiveTo:before,
+      .review__content--exclusiveTo:after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        width: 75%;
+        height: 1pt;
+        transform: translateX(-50%);
+      }
+
+      .review__content--exclusiveTo:before {
+        bottom: 117%;
+        border-bottom: 0.5pt solid var(--dracula-navy)
+      }   
+
+      .review__content--exclusiveTo:after { 
+        top: 97%;
+        border-top: 0.5pt solid var(--dracula-navy)
+      }
+
+      .review__content h4 {
+        font-size: 15pt;
+        line-height: 0.8em;
+        margin-bottom: 6pt;
+        letter-spacing: 0.5pt;
+      }
+
+      .review__content h4:last-child { margin-bottom: 0; }
+
+      .review__content h4:before,
+      .review__content h4:after {
+        content: "'";
+      }
+
+      .review__content h6 {
+        font-size: 7.8pt;
+        line-height: 0.8em;
+        letter-spacing: 0.5pt;
+      }
+
+      .star__container { 
+        position: relative;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .star {
+        display: none;
+        margin: 0 0.5pt;
+        height: 8.3pt;
+      }
+
+      .star__container--5 .star:last-child,
+      .star__container--10 .star:first-child,
+      .star__container--15 .star:first-child,
+      .star__container--15 .star:last-child,
+      .star__container--20 .star:first-child,
+      .star__container--20 .star:nth-child(2),
+      .star__container--25 .star:first-child,
+      .star__container--25 .star:nth-child(2),
+      .star__container--25 .star:last-child,
+      .star__container--30 .star:first-child,
+      .star__container--30 .star:nth-child(2),
+      .star__container--30 .star:nth-child(3),
+      .star__container--35 .star:first-child,
+      .star__container--35 .star:nth-child(2),
+      .star__container--35 .star:nth-child(3),
+      .star__container--35 .star:last-child,
+      .star__container--40 .star:first-child,
+      .star__container--40 .star:nth-child(2),
+      .star__container--40 .star:nth-child(3),
+      .star__container--40 .star:nth-child(4),
+      .star__container--45 .star:first-child,
+      .star__container--45 .star:nth-child(2),
+      .star__container--45 .star:nth-child(3),
+      .star__container--45 .star:nth-child(4),
+      .star__container--45 .star:last-child,
+      .star__container--50 .star:first-child,
+      .star__container--50 .star:nth-child(2),
+      .star__container--50 .star:nth-child(3),
+      .star__container--50 .star:nth-child(4),
+      .star__container--50 .star:nth-child(5) { 
+        display: block;
+      }
+
+      .footer {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        margin-top: 9pt;
+      }
+
+      .cta {
+        margin-right: 15pt;
+        flex: 1;
+        font-size: 12pt;
+        line-height: 1em;
+        font-weight: 500;
+        letter-spacing: 1pt;
+      }
+
+      .cta a {
+        color: var(--white);
+        text-decoration: none;
+        font-size: 9.8pt;
+        letter-spacing: 1.3pt;
+      }
+
+      .cta .tinymce_style--dark,
+      .cta .tinymce_style--dark a { color: var(--dynamic-colour); }
+
+      .cta .tinymce_style--dark {
+        font-size: 12pt;
+        letter-spacing: 1.1pt;
+      }
+
+      .perfomanceType--nutcracker .cta,
+      .perfomanceType--nutcracker .cta a { color: var(--nutcracker-red); }
+
+      .perfomanceType--bespoke .cta .tinymce_style--dark { color: var(--clay); }
+      .perfomanceType--nutcracker .cta .tinymce_style--dark { color: var(--nutcracker-gold);}
+
+      .perfomanceType--the-sleeping-beauty .cta,
+      .perfomanceType--the-sleeping-beauty .cta a { color: var(--clay); }
+
+      .perfomanceType--20-21-season .cta,
+      .perfomanceType--60th-anniversary .cta,
+      .perfomanceType--20-21-season .cta a,
+      .perfomanceType--60th-anniversary .cta a{ color: var(--black); }
+
+
+      .partnerLogo {
+        display: none;
+        height: 22.3pt;
+        flex-shrink: 0;
+        margin-bottom: 5.2pt;
+      }
+
+      .partnerLogos--principal .partnerLogo--primary.partnerLogo--white,
+      .partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--white,
+      .perfomanceType--nutcracker.partnerLogos--principal .partnerLogo--primary.partnerLogo--black,
+      .perfomanceType--nutcracker.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--black,
+      .perfomanceType--60th-anniversary.partnerLogos--principal .partnerLogo--primary.partnerLogo--black,
+      .perfomanceType--60th-anniversary.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--black,
+      .perfomanceType--20-21-season.partnerLogos--principal .partnerLogo--primary.partnerLogo--black,
+      .perfomanceType--20-21-season.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--black { display: block; }
+
+      .perfomanceType--nutcracker.partnerLogos--principal .partnerLogo--primary.partnerLogo--white,
+      .perfomanceType--nutcracker.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--white,
+      .perfomanceType--60th-anniversary.partnerLogos--principal .partnerLogo--primary.partnerLogo--white,
+      .perfomanceType--60th-anniversary.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--white,
+      .perfomanceType--20-21-season.partnerLogos--principal .partnerLogo--primary.partnerLogo--white,
+      .perfomanceType--20-21-season.partnerLogos--principal-major-partners .partnerLogo--secondary.partnerLogo--white { display: none; }
+
+
+      [data-subheading] { display: none; }
+
+      .perfomanceType--dracula [data-subheading="dracula"], 
+      .perfomanceType--the-sleeping-beauty [data-subheading="the-sleeping-beauty"],
+      .perfomanceType--peter-and-the-wolf [data-subheading="peter-and-the-wolf"],
+      .perfomanceType--nutcracker [data-subheading="nutcracker"],
+      .perfomanceType--bespoke [data-subheading="bespoke"],
+      .perfomanceType--60th-anniversary [data-subheading="60th-anniversary"],
+      .perfomanceType--20-21-season [data-subheading="20-21-season"],
+      .perfomanceType--tutus-on-tour-theme-1 [data-subheading="tutus-on-tour-theme-1"],
+      .perfomanceType--tutus-on-tour-theme-2 [data-subheading="tutus-on-tour-theme-2"] { display: block; }
+
+      .perfomanceType--dracula .review__background{background-color: var(--plum);}
+      .perfomanceType--the-sleeping-beauty .review__background{background-color:  #99aa67;}
+      .perfomanceType--peter-and-the-wolf .review__background{background-color: #dde4ba;}
+      .perfomanceType--nutcracker .review__background{background-color: #ca926b;}
+      .perfomanceType--bespoke .review__background{background-color: #DCD3CB;}
+      .perfomanceType--60th-anniversary .review__background{background-color:  #ca926b;}
+      .perfomanceType--20-21-season .review__background{background-color: #ca926b;}
+      .perfomanceType--tutus-on-tour-theme-1 .review__background{background-color: #e6bfb4;}
+      .perfomanceType--tutus-on-tour-theme-2 .review__background{background-color: #e6bfb4;}
+
+
+
+      /* ANY OTHER STYLES THAT NEED MUSTACHE.JS CAPABILITIES */
+    </style>
+  </head>
+  <body style="background: white" 
+        data-crop="{{show-crop}}" 
+        data-reduce-export-font-size-by-percent="0" 
+        data-reduce-firefox-font-size-by-percent="0" 
+        data-prevent-export-overflow="false"
+        class="perfomanceType--{{{QB_performance-type--pr}}}{{^QB_performance-type--pr}}dracula{{/QB_performance-type--pr}}
+               venue--{{{QB_venue-p}}}{{^QB_venue-p}}qpac{{/QB_venue-p}}
+               partnerLogos--{{{QB_partner-logos--pr}}}{{^QB_partner-logos--pr}}principal{{/QB_partner-logos--pr}}">
+    <div class="page">
+
+      <div class="bleed">
+
+        <div class="container fit">
+
+          {{^QB_background-image--pr}}
+          <div class="backgroundImage backgroundImage--default"></div><!--backgroundImage-->
+          {{/QB_background-image--pr}}
+          {{#QB_background-image--pr}}
+          <div class="backgroundImage"><div class="reposition-fix">{{{QB_background-image--pr}}}</div></div><!--backgroundImage-->
+          {{/QB_background-image--pr}}
+
+          {{^QB_heading--pr}}
+          <div 
+               class="image__container image__container--dynamic {{image-con-toggle}}" 
+               data-ps-hook="image-container">
+            <img 
+                 class="image image--dracula" 
+                 src="https://files.outfit.io/media_library_items/221154/QLD-heading.svg" 
+                 data-ps-hook="image">
+            <img 
+                 class="image image--the-sleeping-beauty" 
+                 src="https://files.outfit.io/media_library_items/236590/QLD-Ballet-The_Sleeping_Beauty-heading.svg" 
+                 data-ps-hook="image">
+            <img 
+                 class="image image--peter-and-the-wolf" 
+                 src="https://files.outfit.io/media_library_items/236589/QLD-Ballet-Peter_and_The_Wolf-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--nutcracker" 
+                 src="https://files.outfit.io/media_library_items/236588/QLD-Ballet-The_Nutcracker-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--bespoke" 
+                 src="https://files.outfit.io/media_library_items/236586/QLD-Ballet-Bespoke-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--60th-anniversary" 
+                 src="https://files.outfit.io/media_library_items/236587/QLD-Ballet-60th_Anniversary-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--20-21-season" 
+                 src="https://files.outfit.io/media_library_items/236585/QLD-Ballet-20-21Season-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--tutus-on-tour-theme-1" 
+                 src="https://files.outfit.io/media_library_items/236974/QLD-Ballet-Tutus_on_Tour_Theme1-heading.svg"
+                 data-ps-hook="image">
+            <img 
+                 class="image image--tutus-on-tour-theme-2" 
+                 src="https://files.outfit.io/media_library_items/236593/QLD-Ballet-Tutus_on_Tour_Theme2-heading2.svg"
+                 data-ps-hook="image">
+          </div><!-- image__container --> 
+          {{/QB_heading--pr}}
+          {{#QB_heading--pr}}
+          <div 
+               class="image__container image__container--dynamic" 
+               data-ps-hook="image-container">
+            <img 
+                 class="image image--custom" 
+                 src="{{{QB_heading--pr}}}"
+                 data-ps-hook="image">
+          </div><!-- image__container -->
+          {{/QB_heading--pr}} 
+          <div class="header">
+            <img class="logo logo--white" src="{{{account.logos.stacked}}}">
+            <img class="logo logo--black" src="{{{account.logos.stacked-black}}}">
+            {{#QB_presenting-partner-logo--pr}}
+            <div class="presentingPartnerLogo"></div><!--presentingPartnerLogo-->
+            {{/QB_presenting-partner-logo--pr}}
+          </div><!--header-->
+          <div class="body">
+            <div class="body__top">
+              <div class="subheading">
+                <div class="subheading__inner textFit--vert">
+                  <div data-subheading-container>
+                    <div data-subheading="dracula">Dracula<br>26 nov - 4 dec</div>
+                    <div data-subheading="the-sleeping-beauty">the sleeping<br>beauty<br>4 - 12 jun</div>
+                    <div data-subheading="peter-and-the-wolf">peter &<br>the wolf<br>14 - 21 sept</div>
+                    <div data-subheading="nutcracker">the nutcracker<br>8 - 23 august</div>
+                    <div data-subheading="bespoke">bespoke<br>8 - 23 oct</div>
+                    <div data-subheading="60th-anniversary">60th<br>anniversary<br>gala<br>8 - 23 dec</div>
+                    <div data-subheading="20-21-season">2021<br>season</div>
+                    <div data-subheading="tutus-on-tour-theme-1">tutus on tour<br>17 jul - 25 aug</div>
+                    <div data-subheading="tutus-on-tour-theme-2">tutus on tour<br>17 jul - 25 aug</div>
+                  </div><!--data-subheading-container-->
+                </div>
+              </div><!--subheading-->
+              <div class="venue venue--qpac">QPAC</div><!--venue--qpac-->
+              <div class="venue venue--thomasDickinsonCentre">Thomas Dickson Centre</div><!--venue--thomasDickinsonCentre-->
+              <div class="venue venue--brisbanePowerhouse">Brisbane Powerhouse</div><!--venue--brisbanePowerhouse-->
+            </div><!--body__top-->
+            <div class="body__bottom">
+              <div class="review__container js-review-container" data-max-height="120">
+                {{#collection.QB_review--pr}}
+                {{#block.QB_review-rating--pr}}
+                <div class="review js-review">
+                  <div class="review__background"></div><!-- review__background -->
+                  <div class="review__inner" data-max-height="70">
+                    <div class="star__container" data-rating="{{QB_rating--pr}}{{^QB_rating--pr}}3{{/QB_rating--pr}}">
+                      <img src="https://files.outfit.io/media_library_items/217102/QLD-Ballet-full-star.svg" class="star star--full" /><!--star--full-->
+                      <img src="https://files.outfit.io/media_library_items/217102/QLD-Ballet-full-star.svg" class="star star--full" /><!--star--full-->
+                      <img src="https://files.outfit.io/media_library_items/217102/QLD-Ballet-full-star.svg" class="star star--full" /><!--star--full-->
+                      <img src="https://files.outfit.io/media_library_items/217102/QLD-Ballet-full-star.svg" class="star star--full" /><!--star--full-->
+                      <img src="https://files.outfit.io/media_library_items/217102/QLD-Ballet-full-star.svg" class="star star--full" /><!--star--full-->
+                      <img src="https://files.outfit.io/media_library_items/217437/QLD-Ballet-half-star.png" class="star star--half" /><!--star--half-->
+                    </div><!--star__container-->
+                    <div class="review__content u-heading-patch">{{{QB_copy--pr}}}</div><!--review__content-->
+                  </div><!-- review__inner -->
+                </div><!--review-->
+                {{/block.QB_review-rating--pr}}
+                {{#block.QB_review-exclusive-to--pr}}
+                <div class="review js-review">
+                  <div class="review__background"></div><!-- review__background -->
+                  <div class="review__inner" data-max-height="70">
+                    {{#QB_exclusive-to--pr}}
+                    <div class="review__content review__content--exclusiveTo">{{{QB_exclusive-to--pr}}}</div><!--review__content--exclusiveTo-->
+                    {{/QB_exclusive-to--pr}}
+                  </div><!-- review__inner -->
+                </div><!--review-->
+                {{/block.QB_review-exclusive-to--pr}}
+                {{/collection.QB_review--pr}}
+              </div><!--review__container-->
+            </div><!--body__bottom-->
+          </div><!--body-->
+          <div class="footer">
+            <div class="cta" data-max-line="2">{{{QB_call-to-action--pr}}}</div><!--cta-->
+            <div class="partnerLogo__container">
+              <img class="partnerLogo partnerLogo--primary partnerLogo--white" src="https://files.outfit.io/media_library_items/217107/QLD-Ballet-logo2.svg">
+              <img class="partnerLogo partnerLogo--secondary partnerLogo--white" src="https://files.outfit.io/media_library_items/244817/QB-Partner-Lockup-white.png">
+              <img class="partnerLogo partnerLogo--primary partnerLogo--black" src="https://files.outfit.io/media_library_items/236596/Principle-logo.svg">
+              <img class="partnerLogo partnerLogo--secondary partnerLogo--black" src="https://files.outfit.io/media_library_items/243802/QLD-partner-logos2.svg">
+            </div><!--partnerLogo__container-->
+          </div><!--footer-->
+
+        </div><!--container fit-->
+
+      </div><!--bleed-->
+
+    </div><!--page-->
+
+
+    <script>
+      window.showCrop = {{show-crop}}{{^show-crop}}true{{/show-crop}};
+    </script>
+    <script src="js/main.js"></script>   
+    <script src="js/prefixfree.js"></script>
+    <script src="js/char-limit.js"></script>
+    <script src="js/check-export-mode.js"></script>
+    <script src="js/max-line-check.js"></script>
+    <script src="js/max-height-check.js"></script>
+    <script src="js/hide-empty-titles.js"></script>
+    <script src="js/custom-rich-text.js"></script>
+    <script src="js/dynamic-inject.js"></script>
+    <script src="js/text-fit-min.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+    <script src="js/all-images-loaded-callback.js"></script>
+    <script src="https://outfit-assets-production.s3-accelerate.amazonaws.com/scripts/textfit.0.0.4.min.js" type="text/javascript"></script>
+    <script src="getState.js"></script>
+    <script>
+      //sets the document state (template, document, export or project)
+      const getState = () => document.body.getAttribute("document-state");
+      setState();
+
+      console.clear();
+
+
+      if(getState() === "template" || getState() === "document") {
+        // Tracking text changes and firing text restriction functions (mutationObserver)
+        const overflowObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            maxLineCheck();
+            maxHeightCheck();
+            charLimit();
+            hideEmptyTitles();
+          });
+        });
+
+        const injectObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            injectDynamicContent();
+          });
+        });      
+
+        const injectSources = document.querySelectorAll('[data-target-id]');
+
+        overflowObserver.observe(document.body, {
+          attributes: false,
+          characterData: true,
+          childList: true,
+          subtree: true,
+          attributeOldValue: false,
+          characterDataOldValue: true
+        });
+
+        if ( injectSources.length > 0 ) {
+          injectSources.forEach(src => {
+            injectObserver.observe(src, {
+              attributes: false,
+              characterData: true,
+              childList: true,
+              subtree: true,
+              attributeOldValue: false,
+              characterDataOldValue: true
+            });            
+          });
+        }    
+      }
+
+      // Calling text size restriction functions once the fonts are loaded
+      // All external font-families need to be added to 'fonts' array
+      document.addEventListener('DOMContentLoaded', function(event) {
+        const fonts = ['Founders Grotesk Condensed'];
+        const fontObservers = [];
+
+        fonts.forEach(font => {
+          const obs = new FontFaceObserver(font);
+          fontObservers.push(obs.load())
+        });
+
+        Promise.all(fontObservers).then(() => {
+          injectDynamicContent();
+          hideEmptyTitles();
+          allImagesLoadedCallback();
+          starContainerController();
+          reviewContainerController();
+
+          TextFit.fit ({
+            selector: '.textFit--vert',
+            fitMode: 'vertical',
+            alignItems: 'flex-start'
+          });
+          textFitMin('.textFit--vert', 18);
+          changeVenueSize(".subheading__inner");
+
+          document.dispatchEvent(new Event('printready'));
+        });
+      });      
+
+      checkCrop();
+      checkExport();
+      charLimit();
+
+      // TextFit function decreases the font of the selected element to make it fit in single line (if needed, uncomment the code bellow)
+      // TEXTFIT SHOULD NOT BE CALLED MORE THAN ONCE AND SHOULD NOT BE PLACED INSIDE THE MUTATION OBSERVER
+      TextFit.fit({
+        selector: '.textFit'
+      });
+
+      function starContainerController() {
+        const containers = document.querySelectorAll('div[data-rating]');
+
+        containers.forEach(container => {
+          container.classList.add(`star__container--${container.dataset.rating*10}`);
+        })
+      } 
+
+      function reviewContainerController() {
+        const container = document.querySelector('.js-review-container');
+        let items = document.querySelectorAll('.js-review');
+
+        container.classList.add(`review__container--${items.length}`)
+      }
+
+
+      
+      //CHANGE VENUE SIZE DYNAMICALLY
+      //Function to change the venue size dynamically based
+      //on the fontsize of the subheading textFit.
+   	  //This was used to create the illusion of both elements
+      //having textfit but not being in the same div
+      function changeVenueSize(el) {
+        try {
+          let parent = document.querySelector(el);
+          let parentFontSize = window.getComputedStyle(parent, null).getPropertyValue('font-size');
+          let venues = document.querySelectorAll('.venue');
+          venues.forEach(item => {
+            item.style.fontSize = parentFontSize;
+          });
+        } catch (error) {
+          return console.log("No change needed");
+          // expected output: ReferenceError: nonExistentFunction is not defined
+          // Note - error messages will vary depending on browser
+        }
+      }
+      
+
+      if(getState() === "template" || getState() === "document") {
+        // TEXTFITMIN should be called here in a setInterval
+        setInterval(() => { textFitMin('.textFit--vert', 18); }, 500)
+        // Tracking text changes and firing text restriction functions (mutationObserver)
+        const venueSizeObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            changeVenueSize(".subheading__inner");
+          });
+        });
+        venueSizeObserver.observe(document.body, {
+          attributes: true,
+          characterData: false,
+          childList: true,
+          subtree: true,
+          attributeOldValue: false,
+          characterDataOldValue: false
+        });
+      }
+      
+      
+       function headingSetter() {
+        const fitWidth = document.querySelector('.fit').offsetWidth;
+        const imageContainers = document.querySelectorAll('[data-hs-hook="image-container"]');
+
+        for ( const imageContainer of imageContainers ) {
+          const images = imageContainer.querySelectorAll('[data-hs-width]');        
+
+          for ( const image of images ){
+            if ( window.getComputedStyle(image).getPropertyValue('display') === 'block' ) {
+              const setWidth = image.dataset.hsWidth || 50;
+              const finalWidth = `${( fitWidth / 100 ) * setWidth - 1}px`;
+              image.style.width = finalWidth;
+              imageContainer.style.minWidth = finalWidth;
+              image.onload = () => {
+                imageContainer.style.minHeight = `${image.offsetHeight}px`;
+                console.log('height set');
+              }              
+            }
+          }
+
+        }
+      }
+
+      /*** Work in progress ***/
+      function positionSetter() {
+        const containers = document.querySelectorAll('[data-ps-hook="image-container"]');
+        for ( const container of containers ) {
+          const containerWidth = container.offsetWidth;
+          const containerHeight = container.offsetHeight;
+          const images = container.querySelectorAll('[data-ps-hook="image"]');              
+
+          for ( const image of images ) {
+            const imageComputedStyle = window.getComputedStyle(image);
+            if ( imageComputedStyle.getPropertyValue('display') === 'block' ) {
+              const imageWidth = image.offsetWidth;
+              const imageHeight = image.offsetHeight;
+              const imageXPos = image.offsetLeft;
+              const imageYPos = image.offsetTop;
+
+              console.log({ imageYPos, imageHeight, containerHeight });
+
+              if ( imageXPos + imageWidth > containerWidth ) {
+                image.style.left = `${containerWidth - imageWidth}px`;
+              }
+
+              if ( imageYPos + imageHeight > containerHeight ) {
+                image.style.top = `${containerHeight - imageHeight}px`;
+              }        
+
+            }
+          }
+        }
+      }
+
+
+    </script>
+
+
+  </body>
+</html>
